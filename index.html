@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container" ng-app="myModule">
+        <div ng-controller="myController">
+            <table class="table table-striped table-hover table-dark">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Gender</th>
+                        <th>Salary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="employee in employees">
+                        <td>{{employee.firstName}}</td>
+                        <td>{{employee.lastName}}</td>
+                        <td>{{employee.gender}}</td>
+                        <td>{{employee.salary}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-striped table-hover table-light">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Likes</th>
+                            <th>Dislikes</th>
+                            <th>Like/Dislike</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="technology in technologies">
+                            <td>{{technology.name}}</td>
+                            <td>{{technology.likes}}</td>
+                            <td>{{technology.dislikes}}</td>
+                            <td>
+                                <input type="button" value="Like" ng-click="incrementLikes(technology)">
+                                <input type="button" value="Dislike" ng-click="incrementDislikes(technology)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            <table class="table table-striped table-hover table-dark">
+                    Rows to display <input type="number" step="1" min="0" max="5" ng-model="rowLimit">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date of Birth</th>
+                            <th>Gender</th>
+                            <th>Salary (number filter)</th>
+                            <th>Salary (currency filter)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="emp in filteredEmployees | limitTo:rowLimit">
+                            <td>{{emp.name | uppercase}}</td>
+                            <td>{{emp.dateOfBirth | date:"MMM dd, yyyy"}}</td>
+                            <td>{{emp.gender | lowercase}}</td>
+                            <td>{{emp.salary | number:2}}</td>
+                            <td>{{emp.salary | currency:"$":1}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="country in countries">
+                    <h2>{{country.name}}
+                        <span class="alert alert-warning">
+                            index = {{$index}}
+                        </span>
+                    </h2>
+                    <ul>
+                        <li class="list-group-item" ng-repeat="city in country.cities">
+                            {{city.name}}
+                            <span class="alert alert-success">
+                                    Parent Index = {{$parent.$index}}
+                                </span>
+                            <span class="alert alert-info">
+                                index = {{$index}}
+                            </span>
+                            
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- ng-app name can be referenced in script.js -->
+
+<!-- ng-controller contains the $scope object and some data -->
+
+<!-- ng-repeat is kinda like a for in/each loop. It can preform loops within loops -->
+
+<!-- To find the index of an item in a collection use $index property -->
+
+<!-- 
+    To get the index of the parent element use $parent.$index 
+    or ng-init="parentIndex=$index" 
+-->
+
+<!-- ng-src prevents Angular from making two separate calls for the same object -->
+
+<!--
+    filters can do 3 things: Format, Sort, and Filter data 
+    filter syntax using a pipe(|) character
+    {{ expression | filterName:parameter }} 
+-->
+
+<!-- 
+    limitTofilter
+    {{ expression | limitTo : limit : begin }}
+ -->
+
+<!-- 
+    Date Formats
+     Format           Result
+     ------    --------------------------
+      yyyy     4 digit year, Example 1998
+      yy       2 digit year, Example 98
+      MMMM     January-December
+      MMM      Jan-Dec
+      MM       01-12
+      M        1-12 (no leading zeros)
+      dd       01-31
+      d        1-31 (no leading zeros)
+ -->
+
+ <!-- 
+     Sorting Data
+
+     orderBy filter
+     {{ orderBy_expression | orderBy : expression : reverse }}
+     Example: ng-repeat="employee in employees | orderBy:'salary':false"
+
+     To sort in ascending order, set reverse to false
+     To sort in descending order, set reverse to true
+
+     You can also use + and - to sort in ascending and descending order respectively
+     ng-repeat="employee in employees | orderBy:'+salary'"
+  -->
